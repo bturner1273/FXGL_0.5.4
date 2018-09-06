@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="30" height="13" tilewidth="70" tileheight="70" infinite="0" nextobjectid="52">
+ <tileset firstgid="1" name="map_tiles" tilewidth="70" tileheight="70" spacing="2" tilecount="156" columns="12">
+  <image source="../../../Pictures/GamePics/Platformer/map_tiles.png" width="914" height="936"/>
+ </tileset>
+ <tileset firstgid="157" name="map_tiles" tilewidth="70" tileheight="70" spacing="2" tilecount="156" columns="12">
+  <image source="../../../Pictures/GamePics/Platformer/map_tiles.png" width="914" height="936"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,127,118,120,74,74,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99,99,74,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99,99,99,74,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99,99,99,99,0,
+0,0,0,0,0,0,0,0,0,74,0,0,74,0,0,0,0,0,0,127,118,120,0,0,0,99,99,99,99,0,
+0,0,0,0,0,0,0,0,74,99,0,0,99,74,0,0,0,0,0,0,0,0,0,0,0,99,99,99,99,46,
+0,0,0,0,0,0,0,74,99,99,0,0,99,99,74,0,0,0,0,0,0,0,0,0,0,99,99,99,99,58,
+0,0,0,0,0,0,74,99,99,99,0,0,99,99,99,74,0,0,0,0,0,0,0,0,0,99,99,99,99,74,
+75,74,74,74,74,74,99,99,99,99,139,139,99,99,99,99,74,74,74,74,74,74,74,74,74,99,99,99,99,99
+</data>
+ </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="platform" type="platform" x="0" y="838.667" width="700" height="71.3333"/>
+  <object id="3" name="platform" type="platform" x="420" y="770" width="69.3333" height="68.6667"/>
+  <object id="4" name="platform" type="platform" x="490.667" y="699.333" width="69.3333" height="140.667"/>
+  <object id="5" name="platform" type="platform" x="560" y="629.333" width="70" height="210"/>
+  <object id="6" name="platform" type="platform" x="630.667" y="560" width="69.3333" height="280"/>
+  <object id="7" name="lava" type="lava" x="700" y="865.333" width="140.667" height="44.6667"/>
+  <object id="8" name="platform" type="platform" x="840" y="560.667" width="70" height="349.333"/>
+  <object id="9" name="platform" type="platform" x="909.333" y="630.667" width="70.6667" height="278.667"/>
+  <object id="10" name="platform" type="platform" x="980" y="698.667" width="70" height="210.667"/>
+  <object id="11" name="platform" type="platform" x="1050" y="768.667" width="68" height="141.333"/>
+  <object id="14" name="platform" type="platform" x="1118" y="839.333" width="982" height="70.6667"/>
+  <object id="15" name="platform" type="platform" x="1329.5" y="560" width="211" height="40"/>
+  <object id="16" name="platform" type="platform" x="1539.83" y="281.333" width="211" height="40"/>
+  <object id="17" name="platform" type="platform" x="1750.67" y="280" width="137.333" height="560"/>
+  <object id="18" name="platform" type="platform" x="1885.33" y="348" width="74.6667" height="493.333"/>
+  <object id="19" name="platform" type="platform" x="1960" y="420" width="69.3333" height="420"/>
+  <object id="20" name="platform" type="platform" x="2029.33" y="769.333" width="70.6667" height="72"/>
+  <object id="22" name="door" type="door" x="2028" y="646.667" width="74.6667" height="124"/>
+  <object id="23" name="coin" type="coin" x="69.3333" y="770.667"/>
+  <object id="24" name="coin" type="coin" x="141.333" y="770.667"/>
+  <object id="25" name="coin" type="coin" x="209.333" y="770.667"/>
+  <object id="26" name="coin" type="coin" x="278.667" y="770.667"/>
+  <object id="27" name="coin" type="coin" x="350.667" y="772"/>
+  <object id="28" name="coin" type="coin" x="421.333" y="701.333"/>
+  <object id="29" name="coin" type="coin" x="492" y="630.667"/>
+  <object id="30" name="coin" type="coin" x="562.667" y="558.667"/>
+  <object id="31" name="coin" type="coin" x="633.333" y="490.667"/>
+  <object id="32" name="coin" type="coin" x="770.667" y="421.333"/>
+  <object id="33" name="coin" type="coin" x="909.333" y="490.667"/>
+  <object id="34" name="coin" type="coin" x="981.333" y="561.333"/>
+  <object id="35" name="coin" type="coin" x="1049.33" y="628"/>
+  <object id="36" name="coin" type="coin" x="1120" y="698.667"/>
+  <object id="37" name="coin" type="coin" x="1190.67" y="770.667"/>
+  <object id="38" name="coin" type="coin" x="1262.67" y="698.667"/>
+  <object id="39" name="coin" type="coin" x="1261.33" y="561.333"/>
+  <object id="40" name="coin" type="coin" x="1401.33" y="490.667"/>
+  <object id="41" name="coin" type="coin" x="1472" y="349.333"/>
+  <object id="42" name="coin" type="coin" x="1540" y="210.667"/>
+  <object id="43" name="coin" type="coin" x="1612" y="206.667"/>
+  <object id="44" name="coin" type="coin" x="1678.67" y="209.333"/>
+  <object id="45" name="coin" type="coin" x="1749.33" y="209.333"/>
+  <object id="46" name="coin" type="coin" x="1888" y="209.333"/>
+  <object id="47" name="coin" type="coin" x="1960" y="277.333"/>
+  <object id="48" name="coin" type="coin" x="2029.33" y="346.667"/>
+  <object id="49" name="coin" type="coin" x="2065.33" y="421.333"/>
+  <object id="50" name="coin" type="coin" x="2068" y="490.667"/>
+  <object id="51" name="coin" type="coin" x="2061.33" y="562.667"/>
+ </objectgroup>
+</map>
