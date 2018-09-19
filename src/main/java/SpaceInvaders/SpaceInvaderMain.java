@@ -10,11 +10,14 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.RenderLayer;
 import com.almasb.fxgl.entity.view.EntityView;
 import com.almasb.fxgl.extra.entity.components.ExpireCleanComponent;
+import com.almasb.fxgl.extra.entity.components.RandomMoveComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.texture.AnimatedTexture;
+import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -41,38 +44,31 @@ public class SpaceInvaderMain extends GameApplication{
 		launch(args);
 	}
 	
-	public void asteroidExplode(double x, double y, double astXScale, double astYScale) {
-		Texture explode = getAssetLoader().loadTexture("explosions/explosion-6.png").toAnimatedTexture(8, Duration.millis(500));
-		EntityView explosion = new EntityView(explode);
+	public void asteroidExplode(Entity ast, double astXScale, double astYScale) {
+		ast.getComponents().clear();
+		AnimationChannel explode = new AnimationChannel("Explosions/explosion-6.png", 8, 384/8, 48, Duration.millis(500), 0, 7);
+		AnimatedTexture explosion = new AnimatedTexture(explode);		
 		explosion.setScaleX(astXScale);
 		explosion.setScaleY(astYScale);
-		explosion.setTranslateX(x);
-		explosion.setTranslateY(y);
-		getGameScene().addGameView(explosion, RenderLayer.TOP);
-		getMasterTimer().runOnceAfter(() -> {
-			getGameScene().removeGameView(explosion, RenderLayer.TOP);
-		}, Duration.millis(500));
-
+		if(explosion != null) ast.getViewComponent().setAnimatedTexture(explosion, true, true);
+		else ast.removeFromWorld();
 	}
-	public void enemyExplode(double x, double y, double expScaleX, double expScaleY) {
-		Texture explode = getAssetLoader().loadTexture("explosions/explosion-4.png").toAnimatedTexture(12, Duration.millis(500));
-		EntityView explosion = new EntityView(explode);
+	public void enemyExplode(Entity enemy, double expScaleX, double expScaleY) {
+		enemy.removeComponent(RandomMoveComponent.class);
+		AnimationChannel explode = new AnimationChannel("Explosions/explosion-4.png", 12, 1536/12, 128, Duration.millis(500), 0, 11);
+		AnimatedTexture explosion = new AnimatedTexture(explode);
 		explosion.setScaleX(expScaleX);
 		explosion.setScaleY(expScaleY);
-		explosion.setTranslateX(x);
-		explosion.setTranslateY(y);
-		getGameScene().addGameView(explosion, RenderLayer.TOP);
-		getMasterTimer().runOnceAfter(() -> {
-		getGameScene().removeGameView(explosion, RenderLayer.TOP);
-		}, Duration.millis(500));
+		if(explosion != null) enemy.getViewComponent().setAnimatedTexture(explosion, false, true);
+		else enemy.removeFromWorld();
 	}
 	@Override
 	protected void initPhysics() {
 		PhysicsWorld physicsWorld = getPhysicsWorld();
 		physicsWorld.addCollisionHandler(new CollisionHandler(SpaceInvaderTypes.LARGEASTEROID, SpaceInvaderTypes.PROJECTILE) {
 			public void onCollision(Entity ast, Entity proj) {
-				getGameWorld().removeEntities(ast, proj);
-				asteroidExplode(ast.getCenter().getX(), ast.getCenter().getY(), 2.5, 2.5);
+				getGameWorld().removeEntity(proj);
+				asteroidExplode(ast, 2.5, 2.5);
 			}
 //			Particle Effects Testing (Didn't use because it slows the thread)
 //			
@@ -94,16 +90,15 @@ public class SpaceInvaderMain extends GameApplication{
 		});
 		physicsWorld.addCollisionHandler(new CollisionHandler(SpaceInvaderTypes.ASTEROID, SpaceInvaderTypes.PROJECTILE) {
 			public void onCollision(Entity ast, Entity proj) {
-				getGameWorld().removeEntities(ast, proj);
-				asteroidExplode(ast.getCenter().getX(), ast.getCenter().getY(), 1, 1);
+				getGameWorld().removeEntity(proj);
+				asteroidExplode(ast, 1, 1);
 			}
 		});
 		physicsWorld.addCollisionHandler(new CollisionHandler(SpaceInvaderTypes.ENEMY, SpaceInvaderTypes.PROJECTILE) {
 			public void onCollision(Entity enemy, Entity proj) {
 				getGameWorld().removeEntity(proj);
 				if(enemy.getComponent(HealthComponent.class).isDead()) {
-					getGameWorld().removeEntity(enemy);
-					enemyExplode(enemy.getCenter().getX()-50, enemy.getCenter().getY()-50, .5, .5);
+					enemyExplode(enemy, .5, .5);
 					getGameState().increment("enemyCount", -1);
 				}else {
 					enemy.getComponent(HealthComponent.class).takeDamage(1);
@@ -113,15 +108,15 @@ public class SpaceInvaderMain extends GameApplication{
 		});
 		physicsWorld.addCollisionHandler(new CollisionHandler(SpaceInvaderTypes.ASTEROID, SpaceInvaderTypes.ENEMY) {
 			public void onCollision(Entity ast, Entity enemy) {
-				getGameWorld().removeEntities(ast, enemy);
-				asteroidExplode(ast.getCenter().getX(), ast.getCenter().getY(), 1.5, 1.5);
+				getGameWorld().removeEntity(enemy);
+				asteroidExplode(ast, 1.5, 1.5);
 				getGameState().increment("enemyCount", -1);
 			}
 		});
 		physicsWorld.addCollisionHandler(new CollisionHandler(SpaceInvaderTypes.LARGEASTEROID, SpaceInvaderTypes.ENEMY) {
 			public void onCollision(Entity ast, Entity enemy) {
-				getGameWorld().removeEntities(ast, enemy);
-				asteroidExplode(ast.getCenter().getX(), ast.getCenter().getY(), 2.7, 2.7);
+				getGameWorld().removeEntity(enemy);
+				asteroidExplode(ast, 2.7, 2.7);
 				getGameState().increment("enemyCount", -1);
 			}
 		});
@@ -144,9 +139,8 @@ public class SpaceInvaderMain extends GameApplication{
 		//getGameScene().getViewport().bindToFit(getWidth()/2, getHeight()/2, player);
 		getMasterTimer().runAtInterval(() ->{
 			getGameWorld().spawn("small asteroid", FXGLMath.random(0, getWidth()), -50);
-			getGameWorld().spawn("small asteroid", FXGLMath.random(0, getWidth()), -50);
 			getGameWorld().spawn("large asteroid", FXGLMath.random(0, getWidth()), -100);
-		}, Duration.seconds(FXGLMath.random(3, 5)));
+		}, Duration.seconds(FXGLMath.random(5, 10)));
 		getMasterTimer().runAtInterval(() ->{
 			enemySpawn();
 		}, Duration.millis(500));
